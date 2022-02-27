@@ -26,7 +26,6 @@ Where location IN ('Nigeria', 'United States')
 order by location, date 
 GO
 
-
 --Total cases vs Population
 select Location,
 		date,
@@ -57,14 +56,9 @@ where continent is not null
 group by location,population
 order by MaxDeath desc
 GO
+
 ----total death count by continent
-select continent ,
-		max(cast(total_deaths as int)) as TotalDeathCount
-from dbo.COVIDDEATHS
-where continent is not null
-group by continent
-order by continent desc
-GO
+ 
 
 ---Sum of Data across the world with new cases and new death
 SELECT date, 
@@ -72,7 +66,6 @@ SELECT date,
 		sum(cast(new_deaths as int)) as SumOfNewDeath,
 		sum(cast(new_deaths as int))/sum(new_cases)*100 as PercentNewcaseNewDeath
 FROM dbo.COVIDDEATHS
----where continent IS not null
 group by date
 GO
 
@@ -122,7 +115,7 @@ SELECT cvd.continent,
 		(convert(int,cvc.new_vaccinations)/cvd.population)*100 as SumOfNewlyVaccinated
 FROM dbo.COVIDDEATHS cvd
 join dbo.covidvacc cvc
-	on cvd.location = cvc.location
+	on cvd.location =cvc.location
 	and cvd.date = cvc.date
 where cvd.continent is not null
 group by cvd.continent, cvd.location, cvd.date, cvd.population, cvc.new_vaccinations
